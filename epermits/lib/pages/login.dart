@@ -3,10 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class Login extends StatelessWidget {
-  final Function() notifyParent;
+class Login extends StatefulWidget {
 
-  Login({required this.notifyParent});
+  final Function() loginHandler;
+
+  Login({required this.loginHandler});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  bool _passwordVisible = false;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      if (_passwordVisible) {
+        _passwordVisible = false;
+      }
+      else {
+        _passwordVisible = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +92,13 @@ class Login extends StatelessWidget {
                                   ),
                                   prefixIcon: Icon(MdiIcons.lockOutline),
                                   suffixIcon: IconButton(
-                                    icon: Icon(MdiIcons.eyeOutline),
+                                    icon: _passwordVisible ? Icon(MdiIcons.eyeOffOutline) : Icon(MdiIcons.eyeOutline),
                                     onPressed: () {
-
+                                      _togglePasswordVisibility();
                                     },
                                   ),
                                 ),
+                                obscureText: !_passwordVisible,
                               ),
                             ),
                             Container(
@@ -88,7 +108,7 @@ class Login extends StatelessWidget {
                                 borderRadiusAll: 4,
                                 padding: FxSpacing.y(12),
                                 onPressed: () {
-                                  notifyParent();
+                                  widget.loginHandler();
                                 },
                                 child: FxText.button(
                                   'Login',

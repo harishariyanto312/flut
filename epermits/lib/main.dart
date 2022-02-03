@@ -25,19 +25,25 @@ class CheckAuthentication extends StatefulWidget {
 class _CheckAuthenticationState extends State<CheckAuthentication> {
   bool isAuthenticated = false;
 
-  void updateAuthenticationStatus() {
+  void loginHandler() {
     setState(() {
       isAuthenticated = true;
+    });
+  }
+
+  void logoutHandler() {
+    setState(() {
+      isAuthenticated = false;
     });
   }
 
   @override 
   Widget build(BuildContext context) {
     if (isAuthenticated) {
-      return MainScreen();
+      return MainScreen(logoutHandler: logoutHandler,);
     }
     else {
-      return Login(notifyParent: updateAuthenticationStatus,);
+      return Login(loginHandler: loginHandler,);
     }
   }
 }
